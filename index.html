@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guinchos Nêne - Serviço de Auto Socorro 24 Horas</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-red': '#FF0000',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .service-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        .contact-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .contact-input:focus {
+            border-color: #FF0000;
+        }
+        .map-container {
+            width: 100%;
+            height: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+        }
+        .gallery-item img {
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        .slider {
+            position: relative;
+            overflow: hidden;
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Header -->
+    <header class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <img src="https://via.placeholder.com/150x50" alt="Logo" class="h-12">
+            <nav class="hidden md:flex space-x-6">
+                <a href="#inicio" class="text-gray-700 hover:text-brand-red font-medium">Início</a>
+                <a href="#quem-somos" class="text-gray-700 hover:text-brand-red font-medium">Quem Somos</a>
+                <a href="#servicos" class="text-gray-700 hover:text-brand-red font-medium">Serviços</a>
+                <a href="#galeria" class="text-gray-700 hover:text-brand-red font-medium">Galeria</a>
+                <a href="#contato" class="text-gray-700 hover:text-brand-red font-medium">Contato</a>
+            </nav>
+            <a href="tel:47991926121" class="flex items-center space-x-2 text-brand-red">
+                <i class="fas fa-phone"></i>
+                <span class="font-bold">47 9 9192 6121</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Slider Section -->
+    <section id="inicio" class="pt-20 h-[600px] relative">
+        <div class="slider h-full relative overflow-hidden rounded-lg">
+            <div class="slide active absolute inset-0 transition-opacity duration-700 ease-in-out">
+                <img src="https://via.placeholder.com/1920x600" alt="Slide 1" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white">
+                    <div class="text-center px-4">
+                        <h2 class="text-5xl font-black mb-4">Auto Socorro</h2>
+                        <h3 class="text-4xl font-black text-brand-red mb-6">24 horas</h3>
+                        <p class="text-xl mb-10">A Melhor Solução de Guincho 24 Horas para sua região!</p>
+                        <a href="https://api.whatsapp.com/send?phone=5547991926121" 
+                           class="bg-brand-red text-white px-8 py-3 rounded-full font-bold text-lg inline-block hover:bg-red-600 transition duration-300">
+                            ENTRAR EM CONTATO
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out">
+                <img src="https://via.placeholder.com/1920x600" alt="Slide 2" class="w-full h-full object-cover">
+            </div>
+            <div class="slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out">
+                <img src="https://via.placeholder.com/1920x600" alt="Slide 3" class="w-full h-full object-cover">
+            </div>
+            <!-- Navigation Arrows -->
+            <button id="prevSlide" aria-label="Previous Slide" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-75 transition">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="nextSlide" aria-label="Next Slide" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-75 transition">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <!-- Navigation Dots -->
+            <div id="slideDots" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                <button class="w-4 h-4 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition" aria-label="Slide 1"></button>
+                <button class="w-4 h-4 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition" aria-label="Slide 2"></button>
+                <button class="w-4 h-4 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition" aria-label="Slide 3"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="quem-somos" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-black text-center mb-8">Quem Somos</h2>
+            <div class="max-w-3xl mx-auto text-center">
+                <p class="text-gray-700 mb-6">
+                    Somos uma empresa especializada em transportes de carros, motos, equipamentos, vans, 
+                    ônibus e barcos, responsável e garantindo qualidade no serviço.
+                </p>
+                <p class="text-gray-700">
+                    Nosso guincho 24 horas é operado por profissionais da área. E nossa frota é 
+                    periodicamente revisada para atender nossos clientes com 100% de segurança.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicos" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="service-card p-8 text-center">
+                    <div class="text-brand-red mb-4">
+                        <i class="fas fa-map-marker-alt text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Estamos perto de você!</h3>
+                    <p class="text-gray-600">
+                        Atendimento 24 Horas, posicionados estrategicamente para atender da 
+                        maneira mais rápida e segura possível.
+                    </p>
+                </div>
+                <div class="service-card p-8 text-center">
+                    <div class="text-brand-red mb-4">
+                        <i class="fas fa-user-tie text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Profissionais qualificados</h3>
+                    <p class="text-gray-600">
+                        Equipe constantemente treinada e capacitada para oferecer o serviço com 
+                        a mais alta qualidade e segurança.
+                    </p>
+                </div>
+                <div class="service-card p-8 text-center">
+                    <div class="text-brand-red mb-4">
+                        <i class="fas fa-dollar-sign text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Preço justo</h3>
+                    <p class="text-gray-600">
+                        Preço que cabe no seu bolso. Aceitamos Cartões. Trabalhamos com 
+                        respeito ao cliente e ética.
+                    </p>
+                </div>
+                <div class="service-card p-8 text-center">
+                    <div class="text-brand-red mb-4">
+                        <i class="fas fa-clock text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Socorro 24 horas</h3>
+                    <p class="text-gray-600">
+                        Sempre em busca de prestar um serviço de qualidade e atendimento 
+                        rápido e eficiente!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galeria" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-black text-center mb-12">Nossa Galeria</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://via.placeholder.com/400x300" alt="Galeria 1" class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus text-3xl"></i>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://via.placeholder.com/400x300" alt="Galeria 2" class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus text-3xl"></i>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://via.placeholder.com/400x300" alt="Galeria 3" class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus text-3xl"></i>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://via.placeholder.com/400x300" alt="Galeria 4" class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus text-3xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="map-container shadow-lg rounded-lg">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.234447289454!2d-49.0726493!3d-26.9191283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94df18c3b4a71d65%3A0x9115eafc66c2c3b2!2sR.%20Henrique%20Ave%20Lallemant%2C%2090%20-%20Blumenau%2C%20SC%2C%2089010-360!5e0!3m2!1sen!2sbr!4v1650000000000!5m2!1sen!2sbr"
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contato" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-black text-center mb-12">Entre em contato conosco</h2>
+            <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Informações de Contato</h3>
+                    <div class="space-y-6">
+                        <a href="mailto:contato@guinchosnene.com" class="flex items-center space-x-4 text-gray-700">
+                            <i class="fas fa-envelope text-brand-red text-xl"></i>
+                            <span>contato@guinchosnene.com</span>
+                        </a>
+                        <a href="https://api.whatsapp.com/send?phone=5547991926121" class="flex items-center space-x-4 text-gray-700">
+                            <i class="fab fa-whatsapp text-brand-red text-xl"></i>
+                            <span>47 9 9192 6121</span>
+                        </a>
+                        <div class="flex items-center space-x-4 text-gray-700">
+                            <i class="fas fa-map-marker-alt text-brand-red text-xl"></i>
+                            <span>Blumenau - SC</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <form class="space-y-6">
+                        <input type="text" placeholder="Nome" class="contact-input">
+                        <input type="email" placeholder="Email" class="contact-input">
+                        <textarea placeholder="Mensagem" rows="4" class="contact-input"></textarea>
+                        <button type="submit" class="w-full bg-brand-red text-white py-3 rounded font-bold hover:bg-red-600 transition duration-300">
+                            Enviar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <p class="mb-4">© 2024 Guinchos Nêne | Todos os direitos reservados.</p>
+                <div class="flex justify-center space-x-6">
+                    <a href="https://api.whatsapp.com/send?phone=5547991926121" class="hover:text-brand-red transition duration-300">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                    </a>
+                    <a href="tel:47991926121" class="hover:text-brand-red transition duration-300">
+                        <i class="fas fa-phone text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed WhatsApp Button -->
+    <a href="https://api.whatsapp.com/send?phone=5547991926121" 
+       class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300 z-50">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Slider Script -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('#slideDots button');
+        const prevBtn = document.getElementById('prevSlide');
+        const nextBtn = document.getElementById('nextSlide');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(n) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === n);
+                slide.style.opacity = i === n ? '1' : '0';
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('bg-opacity-100', i === n);
+                dot.classList.toggle('bg-opacity-50', i !== n);
+            });
+            currentSlide = n;
+        }
+
+        function nextSlide() {
+            showSlide((currentSlide + 1) % slides.length);
+        }
+
+        function prevSlideFunc() {
+            showSlide((currentSlide - 1 + slides.length) % slides.length);
+        }
+
+        function startSlideShow() {
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopSlideShow() {
+            clearInterval(slideInterval);
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                stopSlideShow();
+                showSlide(index);
+                startSlideShow();
+            });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            stopSlideShow();
+            nextSlide();
+            startSlideShow();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            stopSlideShow();
+            prevSlideFunc();
+            startSlideShow();
+        });
+
+        showSlide(currentSlide);
+        startSlideShow();
+    </script>
+</body>
+</html>
